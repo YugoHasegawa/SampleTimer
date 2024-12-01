@@ -10,38 +10,31 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query private var settings: [TimerSetting]
 
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+        NavigationView {
+            ScrollView{
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                    ForEach(settings) { setting in
+                        TimerCard(setting: setting)
                     }
                 }
-                .onDelete(perform: deleteItems)
+                .padding()
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
                 ToolbarItem {
                     Button(action: addItem) {
                         Label("Add Item", systemImage: "plus")
                     }
                 }
             }
-        } detail: {
-            Text("Select an item")
         }
     }
 
     private func addItem() {
         withAnimation {
-            let newItem = Item(timestamp: Date())
+            let newItem = TimerSetting(icon: "clock", name: "新しいタイマー", time: .init(10), background: .red)
             modelContext.insert(newItem)
         }
     }
@@ -49,7 +42,7 @@ struct ContentView: View {
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(items[index])
+                modelContext.delete(settings[index])
             }
         }
     }
@@ -57,5 +50,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: TimerSetting.self, inMemory: true)
 }
