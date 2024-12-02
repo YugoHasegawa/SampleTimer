@@ -8,13 +8,13 @@
 import SwiftUI
 
 public struct ExecutionTimer: View {
-    @State var setting: TimerSetting
+    @Binding var setting: TimerSetting
     @State var remainingTime: TimeInterval
     @State var isEnd: Bool = false
     
-    init(setting: TimerSetting) {
-        self.setting = setting
-        self.remainingTime = setting.time
+    init(setting: Binding<TimerSetting>) {
+        self._setting = setting
+        self.remainingTime = setting.wrappedValue.time
     }
     
     public var body: some View {
@@ -46,11 +46,12 @@ public struct ExecutionTimer: View {
             } else {
                 timer.invalidate()
                 isEnd = true
+                self.setting.lastExecutedAt = Date()
             }
         }
     }
 }
 
 #Preview {
-    ExecutionTimer(setting: .init(icon: "figure.run", name: "運動", time: .init(3), background: .blue))
+    ExecutionTimer(setting: .constant(.init(icon: "figure.run", name: "運動", time: .init(3), background: .blue)))
 }

@@ -12,7 +12,7 @@ struct TimerCard: View {
     
     var body: some View {
         HStack {
-            NavigationLink(destination: ExecutionTimer(setting: setting)) {
+            NavigationLink(destination: ExecutionTimer(setting: $setting)) {
                 HStack {
                     Image(systemName: setting.icon)
                     Text(setting.name)

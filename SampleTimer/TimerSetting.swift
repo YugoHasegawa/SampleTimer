@@ -41,6 +41,8 @@ final class TimerSetting {
     var name: String
     var time: TimeInterval
     var background: TimerColor
+    var createdAt: Date
+    var lastExecutedAt: Date?
     
     init(icon: String, name: String, time: TimeInterval, background: TimerColor) {
         self.id = UUID()
@@ -48,5 +50,6 @@ final class TimerSetting {
         self.name = name
         self.time = time
         self.background = background
+        self.createdAt = Date()
     }
 }

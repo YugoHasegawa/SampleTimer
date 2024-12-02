@@ -10,7 +10,8 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var settings: [TimerSetting]
+    @Query(sort: [SortDescriptor(\TimerSetting.lastExecutedAt, order: .reverse), SortDescriptor(\TimerSetting.createdAt, order: .forward)])
+    private var settings: [TimerSetting]
 
     var body: some View {
         NavigationView {
