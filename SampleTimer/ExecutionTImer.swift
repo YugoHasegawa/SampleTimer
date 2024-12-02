@@ -27,7 +27,8 @@ public struct ExecutionTimer: View {
             Text(isEnd ? "終了" : timeString(from: remainingTime))
                 .font(.largeTitle)
         }
-        .background(setting.background.color)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(setting.background.color.ignoresSafeArea())
         .onAppear(perform: startCountdown)
     }
     
