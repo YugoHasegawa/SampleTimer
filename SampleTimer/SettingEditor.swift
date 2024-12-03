@@ -55,9 +55,7 @@ struct SettingEditor: View {
                         .frame(width: 20, height: 20)
                 }
             }
-            HStack {
-                DurationField(duration: $setting.time)
-            }
+            DurationField(duration: $setting.time)
         }
     }
 }
