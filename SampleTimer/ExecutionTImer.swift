@@ -11,7 +11,8 @@ public struct ExecutionTimer: View {
     @Binding var setting: TimerSetting
     @State var remainingTime: TimeInterval
     @State var isEnd: Bool = false
-    
+    @State var player: SoundPlayer?
+
     init(setting: Binding<TimerSetting>) {
         self._setting = setting
         self.remainingTime = setting.wrappedValue.time
@@ -47,11 +48,13 @@ public struct ExecutionTimer: View {
                 timer.invalidate()
                 isEnd = true
                 self.setting.lastExecutedAt = Date()
+                player = SoundPlayer(name: setting.sound.fileName, duration: setting.sound.duration)
+                player?.play()
             }
         }
     }
 }
 
 #Preview {
-    ExecutionTimer(setting: .constant(.init(icon: "figure.run", name: "運動", time: .init(3), background: .blue)))
+    ExecutionTimer(setting: .constant(.init(icon: "figure.run", name: "運動", time: .init(3), background: .blue, sound: .yattaze)))
 }

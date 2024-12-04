@@ -14,6 +14,7 @@ struct TimerTypeOption {
 
 struct SettingEditor: View {
     @Binding var setting: TimerSetting
+    @State var player: SoundPlayer?
     
     let timerTypes: [TimerTypeOption] = [
         .init(icon: "clock", category: "General"),
@@ -55,11 +56,34 @@ struct SettingEditor: View {
                         .frame(width: 20, height: 20)
                 }
             }
+            VStack(alignment: .leading) {
+                HStack {
+                    Image(systemName: "bell.fill")
+                        .foregroundColor(.yellow)
+                    Menu {
+                        Picker("", selection: $setting.sound) {
+                            ForEach(TimerSound.allCases) { sound in
+                                Text(sound.rawValue).tag(sound.fileName)
+                            }
+                        }
+                        .onChange(of: setting.sound) {
+                            player = SoundPlayer(name: setting.sound.fileName, duration: setting.sound.duration)
+                            player?.play()
+                        }
+                    } label: {
+                        Text(setting.sound.rawValue)
+                    }
+                }
+                HStack {
+                    Spacer()
+                    Text("使用した音素材：OtoLogic(https://otologic.jp)").font(.footnote)
+                }
+            }
             DurationField(duration: $setting.time)
         }
     }
 }
 
 #Preview {
-    SettingEditor(setting: .constant(.init(icon: "clock", name: "test", time: .init(3661), background: .orange)))
+    SettingEditor(setting: .constant(.init(icon: "clock", name: "test", time: .init(3661), background: .orange, sound: .yattaze)))
 }

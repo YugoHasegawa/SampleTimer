@@ -35,7 +35,7 @@ struct ContentView: View {
 
     private func addItem() {
         withAnimation {
-            let newItem = TimerSetting(icon: "clock", name: "新しいタイマー", time: .init(10), background: .red)
+            let newItem = TimerSetting(icon: "clock", name: "新しいタイマー", time: .init(10), background: .red, sound: .birdland)
             modelContext.insert(newItem)
         }
     }

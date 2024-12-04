@@ -34,5 +34,5 @@ struct TimerCard: View {
 }
 
 #Preview {
-    TimerCard(setting: .init(icon: "clock", name: "Sample Timer", time: .init(100), background: .orange))
+    TimerCard(setting: .init(icon: "clock", name: "Sample Timer", time: .init(100), background: .orange, sound: .yattaze))
 }
